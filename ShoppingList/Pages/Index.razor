@@ -1,0 +1,46 @@
+﻿@page "/"
+@using ShoppingList.Data;
+@using ShoppingList.Models
+@inject NavigationManager NavigationManager
+@inject IListService ListService
+
+<PageTitle>Index</PageTitle>
+<div class="container">
+</div>
+<h2>Shoppinglista</h2>
+<EditForm Model="lista" OnSubmit="HandleAddList">
+    <div>
+        <label for="name">Name</label>
+        <InputText id="name" @bind-Value="lista.Name" class="form-control w-1"></InputText>
+        <button type="submit" class="btn btn-primary">Add list</button>
+    </div>
+</EditForm>
+@foreach (var lista in ListService.Lists)
+{
+        <a href="/shoppinglist/@lista.Id">@lista.Name</a>
+
+   <a class="btn btn-warning" onclick="@(() => HandleDeleteList(lista))" href="">x</a>
+    <br />
+    ;
+
+}
+
+@code {
+    [Parameter] public int ListId { get; set; }
+    Lista lista = new();
+
+    async Task HandleDeleteList(Lista lista)
+    {
+        await ListService.DeleteList(lista);
+        await InvokeAsync(StateHasChanged);
+
+    }
+    async Task HandleAddList()
+    {
+        await ListService.CreateList(lista);
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await ListService.LoadLists();
+    }
+}
