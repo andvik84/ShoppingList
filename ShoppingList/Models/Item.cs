@@ -16,6 +16,5 @@ namespace ShoppingList.Models
         public string Name { get; set; } = string.Empty;
         public AmountUnit AmountUnit { get; set; } = AmountUnit.None;
         public ItemCategory? Category { get; set; }
-        public int ListItemId { get; set; }
     }
 }

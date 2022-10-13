@@ -29,12 +29,12 @@ namespace ShoppingList.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Lista>> LoadOneList(int id)
+        public async Task<Lista> LoadOneList(int id)
         {
             var lista = await _context.Lists
                 .Where(l => l.Id == id)
-                .Include(l => l.ListItems).ThenInclude(l => l.Item).ThenInclude(i => i.Category).ToListAsync();
-            if (lista == null)
+                .Include(l => l.ListItems).ThenInclude(l => l.Item).ThenInclude(i => i.Category).SingleAsync();
+            if (lista.Id== 0)
                 throw new Exception("No such list");
             return lista;
         }

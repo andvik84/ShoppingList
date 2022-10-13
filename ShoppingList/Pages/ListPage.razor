@@ -2,25 +2,36 @@
 @using ShoppingList.Data;
 @using ShoppingList.Models
 @inject NavigationManager NavigationManager
+@inject IItemService ItemService
 @inject IListService ListService
 
-<h2>@lista</h2>
-<EditForm Model="Item" OnSubmit="handleItemSubmit">
-    <InputText @bind-Value="item.Name" />
+@if(lista.ListItems!=null){
+    foreach (var item in lista.ListItems)
+    {
+        @item.Item.Name
+        <br />
+    }
+
+}
+<h2>@ListId</h2>
+@lista.Name
+<EditForm Model="item" OnSubmit="HandleItemSubmit">
+    <InputText @bind-Value="item.Name"/>
     <button type="submit">Submit</button>
 </EditForm>
 
+
 @code {
     [Parameter] public int ListId { get; set; }
-    private List<Lista> lista = new();
-    private Item item = new();
+    private Lista lista = new();
+    Item item = new();
 
     protected override async Task OnInitializedAsync()
     {
         var lista = await ListService.LoadOneList(ListId);
     }
 
-    async Task handleItemSubmit() {
-
+    async Task HandleItemSubmit() {
+        await ItemService.AddItemToList(item, ListId);
     }
 }

@@ -10,7 +10,7 @@ namespace ShoppingList.Data
         //Task UpdateList(Lista list);
         Task DeleteList(Lista list);
 
-        Task<List<Lista>> LoadOneList(int id);
+        Task<Lista> LoadOneList(int id);
         
     }
 }

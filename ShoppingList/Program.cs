@@ -17,6 +17,7 @@ namespace ShoppingList
             builder.Services.AddServerSideBlazor();
             builder.Services.AddDbContext<ShoppingListDbContext>(options => options.UseSqlite("Data Source = shoppinglist.db"));
             builder.Services.AddScoped<IListService, ListService>();
+            builder.Services.AddScoped<IItemService, ItemService>();
 
 
             var app = builder.Build();
